@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  STAFF
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CHECKED_IN
+  CHECKED_OUT
+  CANCELLED
+}
+
+enum RoomCategory {
+  DELUXE
+  GRAND_DELUXE
+  EXECUTIVE_SUITE
+  PRESIDENTIAL_SUITE
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  name      String
+  email     String?  @unique
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Room {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  name          String
+  category      RoomCategory  @default(DELUXE)
+  description   String
+  shortDesc     String
+  pricePerNight Float
+  capacity      Int           @default(2)
+  bedType       String        @default("King Bed")
+  sizeSqFt      Int           @default(450)
+  image         String
+  images        String[]
+  rating        Float         @default(4.9)
+  isAvailable   Boolean       @default(true)
+  featured      Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  amenities     RoomAmenity[]
+  bookings      Booking[]
+}
+
+model RoomAmenity {
+  id        String   @id @default(cuid())
+  name      String
+  icon      String?
+  roomId    String
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([roomId])
+}
+
+model Guest {
+  id        String    @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String    @unique
+  phone     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  bookings  Booking[]
+}
+
+model Booking {
+  id               String        @id @default(cuid())
+  bookingReference String        @unique
+  guestId          String
+  guest            Guest         @relation(fields: [guestId], references: [id], onDelete: Restrict)
+  roomId           String
+  room             Room          @relation(fields: [roomId], references: [id], onDelete: Restrict)
+  checkIn          DateTime
+  checkOut         DateTime
+  guests           Int           @default(2)
+  status           BookingStatus @default(CONFIRMED)
+  totalAmount      Float
+  specialRequests  String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([guestId])
+  @@index([roomId])
+  @@index([bookingReference])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  category    String
+  icon        String
+  price       Float?
+  duration    String?
+  image       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Offer {
+  id              String   @id @default(cuid())
+  title           String
+  code            String   @unique
+  discountPercent Int
+  description     String
+  benefits        String[]
+  validity        String
+  image           String
+  active          Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

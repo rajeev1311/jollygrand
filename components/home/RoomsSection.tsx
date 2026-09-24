@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Room, RoomCategory } from '@/types/hotel';
 import { RoomCard } from '@/components/rooms/RoomCard';
 import { SectionHeading } from '@/components/ui/SectionHeading';

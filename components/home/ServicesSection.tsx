@@ -9,9 +9,7 @@ import {
   Utensils,
   Car,
   Dumbbell,
-  Wifi,
   ShieldCheck,
-  Coffee,
   CalendarDays,
   ArrowRight
 } from 'lucide-react';

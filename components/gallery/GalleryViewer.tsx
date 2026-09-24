@@ -121,6 +121,18 @@ export function GalleryViewer() {
       ? GALLERY_DATA
       : GALLERY_DATA.filter((p) => p.category === selectedCategory);
 
+  const prevPhoto = React.useCallback(() => {
+    setActivePhotoIndex((prev) =>
+      prev !== null ? (prev - 1 + filteredPhotos.length) % filteredPhotos.length : null
+    );
+  }, [filteredPhotos.length]);
+
+  const nextPhoto = React.useCallback(() => {
+    setActivePhotoIndex((prev) =>
+      prev !== null ? (prev + 1) % filteredPhotos.length : null
+    );
+  }, [filteredPhotos.length]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (activePhotoIndex === null) return;
@@ -131,21 +143,7 @@ export function GalleryViewer() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activePhotoIndex, filteredPhotos]);
-
-  const prevPhoto = () => {
-    if (activePhotoIndex !== null) {
-      setActivePhotoIndex(
-        (activePhotoIndex - 1 + filteredPhotos.length) % filteredPhotos.length
-      );
-    }
-  };
-
-  const nextPhoto = () => {
-    if (activePhotoIndex !== null) {
-      setActivePhotoIndex((activePhotoIndex + 1) % filteredPhotos.length);
-    }
-  };
+  }, [activePhotoIndex, prevPhoto, nextPhoto]);
 
   return (
     <div className="space-y-12">

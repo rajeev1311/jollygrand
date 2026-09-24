@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, Users, Home, Search, ArrowRight } from 'lucide-react';
+import { Calendar, Users, Home, Search } from 'lucide-react';
 
 export function BookingBar() {
   const router = useRouter();

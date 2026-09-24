@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Star, Quote, Award } from 'lucide-react';
+import { Star, Quote } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
 const TESTIMONIALS = [

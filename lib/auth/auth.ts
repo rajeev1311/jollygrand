@@ -65,7 +65,7 @@ export async function getSession(): Promise<UserSession | null> {
       email: data.email,
       role: data.role || 'ADMIN',
     };
-  } catch (err) {
+  } catch {
     return null;
   }
 }

@@ -35,7 +35,7 @@ async function testPrismaConnection(): Promise<boolean> {
     await prisma.$queryRaw`SELECT 1`;
     isPrismaAvailable = true;
     return true;
-  } catch (error) {
+  } catch {
     isPrismaAvailable = false;
     return false;
   }
@@ -541,7 +541,6 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     .reduce((acc, curr) => acc + (curr.totalAmount || 0), 0);
 
   // Dynamic monthly overview calculation
-  const months = ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
   const monthlyRevenue = [
     { month: 'May', amount: 48200, bookings: 32 },
     { month: 'Jun', amount: 62500, bookings: 45 },

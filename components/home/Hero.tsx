@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowDown, Compass, Calendar } from 'lucide-react';
+import { Compass, Calendar } from 'lucide-react';
 
 export function Hero() {
   const scrollToExplore = () => {
